@@ -1,13 +1,28 @@
-import { Box } from "@chakra-ui/react";
+import { Button, Flex, FlexProps, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { Logo } from "../Logo";
 
-export const Navigation: React.FC = () => {
+interface NavigationProps extends FlexProps {
+  [key: string]: any;
+  children?: any;
+}
+
+export const Navigation: React.FC<NavigationProps> = ({ ...rest }) => {
   return (
-    <Box>
+    <Flex justify="space-between" {...rest}>
       <Link to="/">
-        <Box>TerraQuest Solutions</Box>
+        <Logo width={["10vmin", "6vmin"]} />
       </Link>
-    </Box>
+
+      <Stack isInline align="center">
+        <ColorModeSwitcher />
+
+        <Link to="/upload">
+          <Button colorScheme="pink">Upload Your Cat </Button>
+        </Link>
+      </Stack>
+    </Flex>
   );
 };

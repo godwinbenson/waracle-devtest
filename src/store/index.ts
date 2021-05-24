@@ -1,13 +1,12 @@
 import { combineReducers } from "redux";
-
-import companiesReducer, { initialState } from "./companies/reducers";
+import { initialState, imageReducers } from "./images/reducers";
 
 export const rootReducer = combineReducers({
-  companies: companiesReducer,
+  images: imageReducers,
 });
 
 const State = {
-  companies: initialState,
+  images: initialState,
 };
 
 export type RootState = typeof State;

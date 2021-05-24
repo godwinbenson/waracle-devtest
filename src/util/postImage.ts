@@ -1,15 +1,15 @@
 import { APIKEY } from "./api-key";
 import axios, { AxiosRequestConfig } from "axios";
-export class UploadImageError extends Error {
+export class PostImageError extends Error {
   constructor(message: string | undefined) {
     super(message);
-    this.name = "UploadImageError";
+    this.name = "PostImageError";
   }
 }
 
 export const postImage = async (
-  file: File,
-  sub_id: string,
+  file: string | Blob,
+  sub_id: string | Blob,
   progressCallback?: (percent: number) => void
 ) => {
   const form = new FormData();
@@ -37,7 +37,7 @@ export const postImage = async (
     return { uploadedImage: response.data };
   } catch (error) {
     return {
-      error: new UploadImageError("There was an error uploading this image"),
+      error: new PostImageError("There was an error uploading this image"),
     };
   }
 };

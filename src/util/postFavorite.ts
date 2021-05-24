@@ -1,9 +1,9 @@
 import { APIKEY } from "./api-key";
 import axios, { AxiosRequestConfig } from "axios";
-export class postFavoriteError extends Error {
+export class PostFavoriteError extends Error {
   constructor(message: string | undefined) {
     super(message);
-    this.name = "postFavoriteError";
+    this.name = "PostFavoriteError";
   }
 }
 
@@ -26,11 +26,11 @@ export const postFavorite = async (image_id: string, sub_id: string) => {
   } catch (error) {
     if (error.status) {
       return {
-        error: new postFavoriteError(error.message),
+        error: new PostFavoriteError(error.message),
       };
     }
     return {
-      error: new postFavoriteError("There was an favoriting this image"),
+      error: new PostFavoriteError("There was an favoriting this image"),
     };
   }
 };

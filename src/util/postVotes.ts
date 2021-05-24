@@ -1,9 +1,9 @@
 import { APIKEY } from "./api-key";
 import axios, { AxiosRequestConfig } from "axios";
-export class postVoteError extends Error {
+export class PostVoteError extends Error {
   constructor(message: string | undefined) {
     super(message);
-    this.name = "postVoteError";
+    this.name = "PostVoteError";
   }
 }
 
@@ -30,11 +30,11 @@ export const postVotes = async (
   } catch (error) {
     if (value === 1) {
       return {
-        error: new postVoteError("There was an error upvoting this image"),
+        error: new PostVoteError("There was an error upvoting this image"),
       };
     } else {
       return {
-        error: new postVoteError("There was an error downvoting this image"),
+        error: new PostVoteError("There was an error downvoting this image"),
       };
     }
   }

@@ -1,17 +1,21 @@
 import { APIKEY } from "./api-key";
 import axios, { AxiosRequestConfig } from "axios";
 
-export class GetVoteScore extends Error {
+export class GetVoteScoreError extends Error {
   constructor(message: string | undefined) {
     super(message);
-    this.name = "GetVoteScore";
+    this.name = "GetVoteScoreError";
   }
 }
-export const getImages = async () => {
+export const getVoteScore = async (
+  sub_id?: string,
+  limit?: number,
+  page?: number
+) => {
   const options: AxiosRequestConfig = {
     method: "GET",
     url: "https://api.thecatapi.com/v1/votes",
-    params: { sub_id: "demo-image", limit: "5", page: "1" },
+    params: { sub_id, limit, page },
     headers: { "x-api-key": APIKEY },
   };
 
@@ -22,7 +26,7 @@ export const getImages = async () => {
     };
   } catch (e) {
     return {
-      error: new GetVoteScore(
+      error: new GetVoteScoreError(
         "An error occurred fetching the list of companies. Please try again later"
       ),
     };
