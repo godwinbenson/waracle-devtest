@@ -22,7 +22,7 @@ export const getImages = async () => {
   } catch (e) {
     return {
       error: new GetImagesError(
-        "An error occurred fetching the list of companies. Please try again later"
+        "An error occurred fetching the list of images. Please try again later"
       ),
     };
   }

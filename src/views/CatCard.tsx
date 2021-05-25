@@ -43,6 +43,8 @@ export const CatCard: React.FC<CatCardProps> = ({ image, voteCount }) => {
 
   return (
     <Box
+      data-testid="cat-card"
+      id="cat-card"
       position="relative"
       height="xs"
       width={["100%", "320px"]}

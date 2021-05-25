@@ -57,8 +57,12 @@ export const Home: React.FC = () => {
           <div>Loading images...</div>
         ) : null}
 
+        <Text mb={8} fontWeight="bold">
+          My Cat Gallery
+        </Text>
+
         {getImagesError && (
-          <Alert status="error">
+          <Alert data-testid="error-message" status="error">
             <AlertIcon />
             <AlertTitle fontSize="sm" mr={2}>
               {getImagesError.message}
@@ -68,10 +72,6 @@ export const Home: React.FC = () => {
             </Button>
           </Alert>
         )}
-
-        <Text mb={8} fontWeight="bold">
-          My Cat Gallery
-        </Text>
 
         {images.length > 0 && (
           <SimpleGrid column={[1, 3]} spacing={6} px={[5, 6]}>

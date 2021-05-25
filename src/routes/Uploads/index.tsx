@@ -72,7 +72,7 @@ export const Uploads: React.FC = () => {
       });
       push("/");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postImageState]);
 
   return (
@@ -106,6 +106,7 @@ export const Uploads: React.FC = () => {
           {!previewPhoto && (
             <Upload onDrop={handleUpload}>
               <Button
+                aria-label="Select Photo Button"
                 isFullWidth
                 leftIcon={<FiUploadCloud />}
                 colorScheme="pink"
@@ -119,6 +120,7 @@ export const Uploads: React.FC = () => {
           {previewPhoto && (
             <FormControl isInvalid={hasFormError}>
               <Input
+                aria-label="Cat Name"
                 onChange={(e) => handleInputChange(e)}
                 value={sub_id}
                 variant="flushed"
@@ -134,6 +136,7 @@ export const Uploads: React.FC = () => {
             <Button
               isFullWidth
               onClick={handleSaveClick}
+              aria-label="Upload Photo Button"
               isLoading={
                 postImageState === RequestStatus.Requested ? true : false
               }
