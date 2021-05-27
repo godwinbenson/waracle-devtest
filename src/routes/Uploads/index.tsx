@@ -21,8 +21,13 @@ import { postImageUploadAction } from "../../store/images/thunks";
 import RequestStatus from "../../store/RequestStatus";
 import { ImagePreview } from "./ImagePreview";
 import { Upload } from "./Upload";
+import { v4 as uuidv4 } from "uuid";
 
 type Preview = File & { preview: string };
+
+function UserId() {
+  return uuidv4();
+}
 
 export const Uploads: React.FC = () => {
   const { postImageError, postImageState } = useSelector(
@@ -58,7 +63,7 @@ export const Uploads: React.FC = () => {
   };
 
   const handleInputChange = (e: any) => {
-    setSub_id(e.target.value);
+    setSub_id(e.target.value + UserId());
     if (sub_id) setHasFormError(false);
   };
 
