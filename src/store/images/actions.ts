@@ -5,6 +5,8 @@ import { GetVoteScoreError } from "../../util/getVoteScore";
 import { PostFavoriteError } from "../../util/postFavorite";
 import { PostImageError } from "../../util/postImage";
 import { PostVoteError } from "../../util/postVotes";
+import { Favorite } from "./../../types";
+import { GetFavoritesError } from "./../../util/getFavorites";
 import {
   DELETE_FAVORITE_FAILED,
   DELETE_FAVORITE_INIT,
@@ -16,6 +18,9 @@ import {
   GET_VOTE_SCORE_FAILED,
   GET_VOTE_SCORE_REQUESTED,
   GET_VOTE_SCORE_SUCCESS,
+  GET_FAVORITE_REQUESTED,
+  GET_FAVORITE_SUCCESS,
+  GET_FAVORITE_FAILED,
   ImagesActionTypes,
   POST_FAVORITE_FAILED,
   POST_FAVORITE_INIT,
@@ -44,6 +49,26 @@ export const getImagesSuccess = (images: Image[]): ImagesActionTypes => ({
 
 export const getImagesFailure = (error: GetImagesError): ImagesActionTypes => ({
   type: GET_IMAGES_FAILED,
+  payload: error,
+});
+
+/**
+ * /GET Favorites endpoint
+ */
+export const getFavoriteRequested = (): ImagesActionTypes => ({
+  type: GET_FAVORITE_REQUESTED,
+});
+export const getFavoriteSuccess = (
+  favorites: Favorite[]
+): ImagesActionTypes => ({
+  type: GET_FAVORITE_SUCCESS,
+  payload: favorites,
+});
+
+export const getFavoriteFailure = (
+  error: GetFavoritesError
+): ImagesActionTypes => ({
+  type: GET_FAVORITE_FAILED,
   payload: error,
 });
 
@@ -139,7 +164,6 @@ export const deleteFavoriteRequested = (): ImagesActionTypes => ({
 });
 export const deleteFavoriteSuccess = (): ImagesActionTypes => ({
   type: DELETE_FAVORITE_SUCCESS,
-  payload: "",
 });
 
 export const deleteFavoriteFailed = (

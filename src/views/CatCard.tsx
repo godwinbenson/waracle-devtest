@@ -9,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FiThumbsDown, FiThumbsUp } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
+import { useDispatch } from "react-redux";
 import {
   deleteFavoriteAction,
+  getFavoriteAction,
   getVoteScoreAction,
   postFavoriteAction,
   postVoteAction,
@@ -22,23 +22,32 @@ import { Image } from "../types";
 type CatCardProps = {
   image: Image;
   voteCount: number;
+  favorite_id?: number | null;
 };
 
-export const CatCard: React.FC<CatCardProps> = ({ image, voteCount }) => {
-  const { favorite_id } = useSelector((state: RootState) => state.images);
+export const CatCard: React.FC<CatCardProps> = ({
+  image,
+  favorite_id,
+  voteCount,
+}) => {
   const dispatch = useDispatch();
 
   const handleVoteClick = (value: number) => {
-    dispatch(postVoteAction(image.id, image.sub_id, value));
-    dispatch(getVoteScoreAction());
+    (async () => {
+      dispatch(postVoteAction(image.id, value));
+      dispatch(getVoteScoreAction());
+    })();
   };
 
   const handleFavoriteClick = () => {
-    if (favorite_id) {
-      dispatch(deleteFavoriteAction(favorite_id));
-    } else {
-      dispatch(postFavoriteAction(image.id, image.sub_id));
-    }
+    (async () => {
+      if (favorite_id) {
+        dispatch(deleteFavoriteAction(favorite_id));
+      } else {
+        dispatch(postFavoriteAction(image.id, image.sub_id));
+      }
+      dispatch(getFavoriteAction());
+    })();
   };
 
   return (

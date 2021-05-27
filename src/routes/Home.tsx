@@ -14,7 +14,11 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../store";
-import { getImagesAction, getVoteScoreAction } from "../store/images/thunks";
+import {
+  getFavoriteAction,
+  getImagesAction,
+  getVoteScoreAction,
+} from "../store/images/thunks";
 import RequestStatus from "../store/RequestStatus";
 import { VoteScore } from "../types";
 import { CatCard } from "../views/CatCard";
@@ -23,7 +27,10 @@ export const Home: React.FC = () => {
   const {
     imageList: images,
     voteScore,
+    favorites,
     getImagesError,
+    getVoteScoreError,
+    getFavoriteError,
     getImagesState,
   } = useSelector((state: RootState) => state.images);
   const dispatch = useDispatch();
@@ -31,13 +38,22 @@ export const Home: React.FC = () => {
   React.useEffect(() => {
     (async () => {
       dispatch(getImagesAction());
-      dispatch(getVoteScoreAction());
+      // dispatch(getFavoriteAction());
+      // dispatch(getVoteScoreAction());
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  React.useEffect(() => {
+    (async () => {
+      dispatch(getFavoriteAction());
+      dispatch(getVoteScoreAction());
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images, favorites, voteScore]);
+
   return (
-    <Flex justify="center" direction="column" maxW="1200px" mx="auto">
+    <Flex py={5} justify="center" direction="column" maxW="1400px" mx="auto">
       <Box className="images__container" fontSize="xl">
         {images.length === 0 && getImagesState === RequestStatus.Success ? (
           <Grid minH="100vh" p={3}>
@@ -73,12 +89,45 @@ export const Home: React.FC = () => {
           </Alert>
         )}
 
+        {getFavoriteError && (
+          <Alert data-testid="error-message" status="error">
+            <AlertIcon />
+            <AlertTitle fontSize="sm" mr={2}>
+              {getFavoriteError.message}
+            </AlertTitle>
+            <Button onClick={() => dispatch(getFavoriteAction())}>
+              Try Again
+            </Button>
+          </Alert>
+        )}
+
+        {getVoteScoreError && (
+          <Alert data-testid="error-message" status="error">
+            <AlertIcon />
+            <AlertTitle fontSize="sm" mr={2}>
+              {getVoteScoreError.message}
+            </AlertTitle>
+            <Button onClick={() => dispatch(getVoteScoreAction())}>
+              Try Again
+            </Button>
+          </Alert>
+        )}
+
         {images.length > 0 && (
-          <SimpleGrid column={[1, 3]} spacing={6} px={[5, 6]}>
+          <SimpleGrid columns={[1, 4]} spacing={6} px={[5, 6]}>
             {images.map((image) => {
-              const voteCount = getVoteCount(image.sub_id, voteScore);
+              const voteCount = getVoteCount(image.id, voteScore);
+              const getFavorite = favorites.find(
+                (fav) => fav.image_id === image.id
+              );
+
               return (
-                <CatCard key={image.id} image={image} voteCount={voteCount} />
+                <CatCard
+                  favorite_id={getFavorite?.id}
+                  key={image.id}
+                  image={image}
+                  voteCount={voteCount}
+                />
               );
             })}
           </SimpleGrid>
@@ -88,13 +137,13 @@ export const Home: React.FC = () => {
   );
 };
 
-export const getVoteCount = (sub_id: string, votes: VoteScore[]) => {
+const getVoteCount = (image_id: string, votes: VoteScore[]) => {
   const upVotes = votes.filter(
-    (vote) => vote.sub_id === sub_id && vote.value === 1
+    (vote) => vote.image_id === image_id && vote.value === 1
   );
 
   const downVotes = votes.filter(
-    (vote) => vote.sub_id === sub_id && vote.value === 0
+    (vote) => vote.image_id === image_id && vote.value === 0
   );
 
   return upVotes.length - downVotes.length;

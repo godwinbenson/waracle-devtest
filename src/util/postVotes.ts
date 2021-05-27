@@ -9,8 +9,8 @@ export class PostVoteError extends Error {
 
 export const postVotes = async (
   image_id: string,
-  sub_id: string,
-  value: number
+  value: number,
+  sub_id?: string
 ) => {
   const options: AxiosRequestConfig = {
     method: "POST",

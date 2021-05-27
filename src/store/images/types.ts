@@ -1,3 +1,5 @@
+import { GetFavoritesError } from "./../../util/getFavorites";
+import { Favorite } from "./../../types";
 import { GetVoteScoreError } from "../../util/getVoteScore";
 import { PostVoteError } from "../../util/postVotes";
 import { DeleteFavoriteError } from "../../util/deleteFavorite";
@@ -14,6 +16,10 @@ export const GET_IMAGES_FAILED = "GET_IMAGES_FAILED";
 export const GET_VOTE_SCORE_REQUESTED = "GET_VOTE_SCORE_REQUESTED";
 export const GET_VOTE_SCORE_SUCCESS = "GET_VOTE_SCORE_SUCCESS";
 export const GET_VOTE_SCORE_FAILED = "GET_VOTE_SCORE_FAILED";
+
+export const GET_FAVORITE_REQUESTED = "GET_FAVORITE_REQUESTED";
+export const GET_FAVORITE_SUCCESS = "GET_FAVORITE_SUCCESS";
+export const GET_FAVORITE_FAILED = "GET_FAVORITE_FAILED";
 
 export const POST_IMAGE_UPLOAD_REQUESTED = "POST_IMAGE_UPLOAD_REQUESTED";
 export const POST_IMAGE_UPLOAD_SUCCESS = "POST_IMAGE_UPLOAD_SUCCESS";
@@ -38,11 +44,13 @@ export const DELETE_FAVORITE_INIT = "DELETE_FAVORITE_INIT";
 export type ImagesState = {
   imageList: Image[];
   voteScore: VoteScore[];
-  favorite_id: string;
+  favorites: Favorite[];
   postImageState: RequestStatus;
   postImageError: PostImageError | undefined;
   getImagesState: RequestStatus;
   getImagesError: GetImagesError | undefined;
+  getFavoriteState: RequestStatus;
+  getFavoriteError: GetFavoritesError | undefined;
   postFavoriteState: RequestStatus;
   postFavoriteError: PostFavoriteError | undefined;
   deleteFavoriteState: RequestStatus;
@@ -143,6 +151,22 @@ type GetVoteScoreFailedAction = {
   payload: Error;
 };
 
+// GET_FAVORITE_ACTION_TYPES
+
+type GetFavoriteRequestedAction = {
+  type: typeof GET_FAVORITE_REQUESTED;
+};
+
+type GetFavoriteSuccessAction = {
+  type: typeof GET_FAVORITE_SUCCESS;
+  payload: Favorite[];
+};
+
+type GetFavoriteFailedAction = {
+  type: typeof GET_FAVORITE_FAILED;
+  payload: Error;
+};
+
 // DELETE_FAVORITE_ACTION_TYPES
 
 type DeleteFavoriteRequestedAction = {
@@ -151,7 +175,6 @@ type DeleteFavoriteRequestedAction = {
 
 type DeleteFavoriteSuccessAction = {
   type: typeof DELETE_FAVORITE_SUCCESS;
-  payload: string;
 };
 
 type DeleteFavoriteFailedAction = {
@@ -185,4 +208,7 @@ export type ImagesActionTypes =
   | DeleteFavoriteRequestedAction
   | DeleteFavoriteSuccessAction
   | DeleteFavoriteFailedAction
-  | DeleteFavoriteInitAction;
+  | DeleteFavoriteInitAction
+  | GetFavoriteRequestedAction
+  | GetFavoriteSuccessAction
+  | GetFavoriteFailedAction;

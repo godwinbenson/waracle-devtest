@@ -1,3 +1,4 @@
+import { getFavorites } from "./../../util/getFavorites";
 import { deleteFavorite } from "../../util/deleteFavorite";
 import { getImages } from "../../util/getImages";
 import { getVoteScore } from "../../util/getVoteScore";
@@ -59,7 +60,7 @@ export const postFavoriteAction =
   };
 
 export const deleteFavoriteAction =
-  (favourite_id: string): AppThunk =>
+  (favourite_id: number | undefined): AppThunk =>
   async (dispatch: (arg0: ImagesActionTypes) => void) => {
     dispatch(actions.deleteFavoriteRequested());
 
@@ -75,10 +76,10 @@ export const deleteFavoriteAction =
   };
 
 export const postVoteAction =
-  (image_id: string, sub_id: string, value: number): AppThunk =>
+  (image_id: string, value: number, sub_id?: string): AppThunk =>
   async (dispatch: (arg0: ImagesActionTypes) => void) => {
     dispatch(actions.postVoteRequested());
-    const { error } = await postVotes(image_id, sub_id, value);
+    const { error } = await postVotes(image_id, value);
 
     if (error) {
       dispatch(actions.postVoteFailed(error));
@@ -101,5 +102,19 @@ export const getVoteScoreAction =
     }
     if (error) {
       dispatch(actions.getVoteScoreFailure(error));
+    }
+  };
+
+export const getFavoriteAction =
+  (): AppThunk => async (dispatch: (arg0: ImagesActionTypes) => void) => {
+    dispatch(actions.getVoteScoreRequested());
+
+    const { favorites, error } = await getFavorites();
+
+    if (favorites) {
+      dispatch(actions.getFavoriteSuccess(favorites));
+    }
+    if (error) {
+      dispatch(actions.getFavoriteFailure(error));
     }
   };

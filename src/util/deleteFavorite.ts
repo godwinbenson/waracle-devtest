@@ -7,7 +7,7 @@ export class DeleteFavoriteError extends Error {
   }
 }
 
-export const deleteFavorite = async (favourite_id: string) => {
+export const deleteFavorite = async (favourite_id: number | undefined) => {
   const options: AxiosRequestConfig = {
     method: "DELETE",
     url: `https://api.thecatapi.com/v1/favourites/${favourite_id}`,

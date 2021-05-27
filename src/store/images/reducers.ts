@@ -19,6 +19,9 @@ import {
   GET_VOTE_SCORE_REQUESTED,
   GET_VOTE_SCORE_SUCCESS,
   GET_VOTE_SCORE_FAILED,
+  GET_FAVORITE_REQUESTED,
+  GET_FAVORITE_SUCCESS,
+  GET_FAVORITE_FAILED,
   DELETE_FAVORITE_REQUESTED,
   DELETE_FAVORITE_SUCCESS,
   DELETE_FAVORITE_FAILED,
@@ -29,11 +32,13 @@ import RequestStatus from "../RequestStatus";
 export const initialState: ImagesState = {
   imageList: [],
   voteScore: [],
-  favorite_id: "",
+  favorites: [],
   postImageState: RequestStatus.Initial,
   postImageError: undefined,
   getImagesState: RequestStatus.Initial,
   getImagesError: undefined,
+  getFavoriteState: RequestStatus.Initial,
+  getFavoriteError: undefined,
   postFavoriteState: RequestStatus.Initial,
   postFavoriteError: undefined,
   deleteFavoriteState: RequestStatus.Initial,
@@ -81,6 +86,24 @@ export const imageReducers = (
       };
     }
     case GET_IMAGES_FAILED: {
+      return {
+        ...state,
+        getImagesState: RequestStatus.Failed,
+        getImagesError: action.payload,
+      };
+    }
+    case GET_FAVORITE_REQUESTED: {
+      return { ...state, getImagesState: RequestStatus.Requested };
+    }
+    case GET_FAVORITE_SUCCESS: {
+      return {
+        ...state,
+        getImagesState: RequestStatus.Success,
+        favorites: action.payload,
+        getImagesError: undefined,
+      };
+    }
+    case GET_FAVORITE_FAILED: {
       return {
         ...state,
         getImagesState: RequestStatus.Failed,
@@ -157,7 +180,6 @@ export const imageReducers = (
     case DELETE_FAVORITE_SUCCESS: {
       return {
         ...state,
-        favorite_id: action.payload,
         deleteFavoriteState: RequestStatus.Success,
       };
     }

@@ -1,28 +1,27 @@
 import { APIKEY } from "./api-key";
 import axios, { AxiosRequestConfig } from "axios";
 
-export class GetImagesError extends Error {
+export class GetFavoritesError extends Error {
   constructor(message: string | undefined) {
     super(message);
-    this.name = "GetImagesError";
+    this.name = "GetFavoritesError";
   }
 }
-export const getImages = async () => {
+export const getFavorites = async () => {
   const options: AxiosRequestConfig = {
     method: "GET",
-    url: "https://api.thecatapi.com/v1/images",
-    params: { limit: "60" },
+    url: "https://api.thecatapi.com/v1/favourites",
     headers: { "x-api-key": APIKEY },
   };
 
   try {
     const response = await axios.request(options);
     return {
-      uploadedImages: response.data,
+      favorites: response.data,
     };
   } catch (e) {
     return {
-      error: new GetImagesError(
+      error: new GetFavoritesError(
         "An error occurred fetching the list of images. Please try again later"
       ),
     };

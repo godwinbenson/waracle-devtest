@@ -15,3 +15,17 @@ export type VoteScore = {
   sub_id: string | null;
   value: number;
 };
+
+type FavoriteImage = {
+  id: number;
+  url: string;
+};
+
+export type Favorite = {
+  id: number;
+  user_id: string;
+  image_id: string;
+  sub_id: string;
+  created_at: string;
+  image: FavoriteImage;
+};
