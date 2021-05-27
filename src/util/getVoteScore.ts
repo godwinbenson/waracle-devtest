@@ -27,7 +27,7 @@ export const getVoteScore = async (
   } catch (e) {
     return {
       error: new GetVoteScoreError(
-        "An error occurred fetching the list of companies. Please try again later"
+        "An error occurred fetching the list of votes. Please try again later"
       ),
     };
   }

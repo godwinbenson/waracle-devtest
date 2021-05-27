@@ -1,4 +1,4 @@
-import { Button, Flex, FlexProps, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, FlexProps, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
