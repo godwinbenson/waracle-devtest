@@ -38,19 +38,11 @@ export const Home: React.FC = () => {
   React.useEffect(() => {
     (async () => {
       dispatch(getImagesAction());
-      // dispatch(getFavoriteAction());
-      // dispatch(getVoteScoreAction());
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    (async () => {
       dispatch(getFavoriteAction());
       dispatch(getVoteScoreAction());
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images, favorites, voteScore]);
+  }, []);
 
   return (
     <Flex py={5} justify="center" direction="column" maxW="1400px" mx="auto">

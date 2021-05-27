@@ -44,7 +44,7 @@ export const postImageUploadAction =
   };
 
 export const postFavoriteAction =
-  (image_id: string, sub_id: string): AppThunk =>
+  (image_id: string, sub_id: string, callBack?: () => any): AppThunk =>
   async (dispatch: (arg0: ImagesActionTypes) => void) => {
     dispatch(actions.postFavoriteRequested());
 
@@ -55,12 +55,16 @@ export const postFavoriteAction =
       return;
     }
 
+    if (callBack) {
+      dispatch(callBack());
+    }
+
     dispatch(actions.postFavoriteSuccess(favourite_id));
     dispatch(actions.postFavoriteInit());
   };
 
 export const deleteFavoriteAction =
-  (favourite_id: number | undefined): AppThunk =>
+  (favourite_id: number | undefined, callBack?: () => any): AppThunk =>
   async (dispatch: (arg0: ImagesActionTypes) => void) => {
     dispatch(actions.deleteFavoriteRequested());
 
@@ -70,13 +74,16 @@ export const deleteFavoriteAction =
       dispatch(actions.deleteFavoriteFailed(error));
       return;
     }
+    if (callBack) {
+      dispatch(callBack());
+    }
 
     dispatch(actions.deleteFavoriteSuccess());
     dispatch(actions.deleteFavoriteInit());
   };
 
 export const postVoteAction =
-  (image_id: string, value: number, sub_id?: string): AppThunk =>
+  (image_id: string, value: number, callBack?: () => any): AppThunk =>
   async (dispatch: (arg0: ImagesActionTypes) => void) => {
     dispatch(actions.postVoteRequested());
     const { error } = await postVotes(image_id, value);
@@ -84,6 +91,10 @@ export const postVoteAction =
     if (error) {
       dispatch(actions.postVoteFailed(error));
       return;
+    }
+
+    if (callBack) {
+      dispatch(callBack());
     }
 
     dispatch(actions.postVoteSuccess());

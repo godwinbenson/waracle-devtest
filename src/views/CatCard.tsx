@@ -34,19 +34,17 @@ export const CatCard: React.FC<CatCardProps> = ({
 
   const handleVoteClick = (value: number) => {
     (async () => {
-      dispatch(postVoteAction(image.id, value));
-      dispatch(getVoteScoreAction());
+      dispatch(postVoteAction(image.id, value, getVoteScoreAction));
     })();
   };
 
   const handleFavoriteClick = () => {
     (async () => {
       if (favorite_id) {
-        dispatch(deleteFavoriteAction(favorite_id));
+        dispatch(deleteFavoriteAction(favorite_id, getFavoriteAction));
       } else {
-        dispatch(postFavoriteAction(image.id, image.sub_id));
+        dispatch(postFavoriteAction(image.id, image.sub_id, getFavoriteAction));
       }
-      dispatch(getFavoriteAction());
     })();
   };
 
