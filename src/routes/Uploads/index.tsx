@@ -57,13 +57,14 @@ export const Uploads: React.FC = () => {
 
   const handleSaveClick = () => {
     if (sub_id && file) {
+      let uniqueSubId = `${sub_id}-${UserId()}`;
       setHasFormError(false);
-      dispatch(postImageUploadAction(file, sub_id, progressCallBack));
+      dispatch(postImageUploadAction(file, uniqueSubId, progressCallBack));
     } else setHasFormError(true);
   };
 
   const handleInputChange = (e: any) => {
-    setSub_id(e.target.value + UserId());
+    setSub_id(e.target.value);
     if (sub_id) setHasFormError(false);
   };
 
