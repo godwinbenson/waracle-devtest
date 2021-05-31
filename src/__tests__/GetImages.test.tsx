@@ -28,7 +28,7 @@ describe("Images", () => {
   });
 
   it("should render a list of images", async () => {
-    // Test succesful response
+    // Test successful response
     mockGetImages(mock);
     render(
       <Provider store={store}>
@@ -37,10 +37,28 @@ describe("Images", () => {
         </BrowserRouter>
       </Provider>
     );
+
     // Loading initially
     await screen.findByText("Loading images...");
 
     // Should render both of the cat cards
     await expect(screen.getAllByTestId("cat-card").length).toBe(2);
+  });
+
+  it("should render the error message", async () => {
+    // Test successful response
+    mockGetImages(mock, { error: true });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    // Loading initially
+    await screen.findByText(
+      "An error occurred fetching the list of images. Please try again later"
+    );
   });
 });

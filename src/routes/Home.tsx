@@ -47,7 +47,7 @@ export const Home: React.FC = () => {
   return (
     <Flex py={5} justify="center" direction="column" maxW="1400px" mx="auto">
       <Box className="images__container" fontSize="xl">
-        {images.length === 0 && getImagesState === RequestStatus.Success ? (
+        {images.length === 0 && getImagesState === RequestStatus.Success && (
           <Grid minH="100vh" p={3}>
             <VStack spacing={6}>
               <Text>You have not uploaded any cats yet.</Text>
@@ -59,11 +59,11 @@ export const Home: React.FC = () => {
               </Link>
             </VStack>
           </Grid>
-        ) : null}
+        )}
 
-        {images.length === 0 && getImagesState === RequestStatus.Requested ? (
+        {images.length === 0 && getImagesState === RequestStatus.Requested && (
           <div>Loading images...</div>
-        ) : null}
+        )}
 
         <Text mb={8} fontWeight="bold">
           My Cat Gallery
